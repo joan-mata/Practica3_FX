@@ -1,49 +1,57 @@
-import signal
-import sys
-import socket
 import argparse
-import time
-import threading
-import random
-import logging
-
-from queue import Queue
+import socket
+import sys
 
 IP_ADDRESS = "127.0.0.1"
 
-SENDER_RX_UDP_PORT   = 9001
-SENDER_TX_UDP_PORT   = 9002
-RECEIVER_RX_UDP_PORT = 9003
-RECEIVER_TX_UDP_PORT = 9004
+SEND_PACKAGE_UDP_PORT = 9001 # PUERTO DONDE ENVIAMOS LOS DATOS 
+ACK_RECEIVER_UDP_PORT = 9004 # PUERTO DONDE RECIBIMOS EL ACK
 
-SOCKET_TIMEOUT = 0.001
-LOOP_TIMEOUT   = 0.0001
+PACKAGE_SIZE = 1024
 
-BUFFER_LENGTH = 1024
 
-def create_package():
-    
-    
-#ACABAR -> DEFAULTS
-def parse_arguments():
+def parse_arguments(): # INICIALIZAMOS LAS VARIABLES PARA LOS DATOS QUE EVIAMOS 
+
     # Create argument parser
     parser = argparse.ArgumentParser(description='Package shipping process and ACK receipt process.')
     
-    #Add parser parameters #PONER DAFAULTS
-    parser.add_argument('shipping_rate', type=float, nargs="?", help="Data delivery rate in bits per second")
-    parser.add_argument('package_size', type=int, nargs="?", default=BUFFER_LENGTH, help="Package size in bytes (maximum = 1024)")
-    parser.add_argument('package_number', type=int, nargs="?", help="Number of data package to send")
+    # Add parser parameters #PONER DEFAULTS
+    parser.add_argument('shipping_rate', type=float, nargs="?", help="Data delivery rate in bits per second") #TAXA D'ENVIAMENT
+    parser.add_argument('package_size', type=int, nargs="?", default=BUFFER_LENGTH, help="Package size in bytes (maximum = 1024)") #MIDA DELS PAQUETS DE DADES EN BITS 
+    parser.add_argument('package_number', type=int, nargs="?", default=1, help="Number of data package to send") #n total de paquets de dades enviar abans de finalitzar l’execució
 
     # Parse the program input arguments
     args = parser.parse_args()
     
     return args
 
+def create_package(): # CREAMOS EL PAQUETE, LE PONEMOS LOS DATOS 
+    args = parse_arguments()
+
+
 def main():
 
-    # Parse input arguments
-    args = parse_arguments()
-    # HAY QUE MIRAR COMO SE LE CAMBIAN LOS VALORES DE ENTRADA ¿¿??
+    data = create_package() # CREATE PACKAGE 
 
-    # Create package to send
+    s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+    s.bind((IP_ADDRESS, PACKAGE_RECEIVER_UDP_PORT))
+
+ 
     
+
+
+
+def main():
+    # Configuration
+    s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+    s.bind((IP_ADDRESS, PACKAGE_RECEIVER_UDP_PORT))
+    
+    while True:
+        # Send package
+        s.sendto(data, (IP_ADDRESS, SEND_PACKAGE_UDP_PORT))  
+
+        #WAIT
+
+        # Receive ACK 
+        ack_data, addr = s.recvfrom(PACKAGE_SIZE)
+
