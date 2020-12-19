@@ -1,0 +1,11 @@
+SENDER.PY
+
+1r: configuro puertos
+2n: crear los packetes que he de enviar
+	Intentar hacerlos ramdom y de diferentes tamaños
+
+
+RECERIVER1.PY
+
+configuro puertos
+WHile a escuchar y lo que recibo lo envio

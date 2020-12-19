@@ -1,25 +1,18 @@
-import signal
-import sys
 import socket
-import argparse
-import time
-import threading
-import random
-import logging
-
-from queue import Queue
 
 IP_ADDRESS = "127.0.0.1"
 
-SENDER_RX_UDP_PORT   = 9001
-SENDER_TX_UDP_PORT   = 9002
-RECEIVER_RX_UDP_PORT = 9003
-RECEIVER_TX_UDP_PORT = 9004
+PACKAGE_RECEIVER_UDP_PORT = 9002
+SEND_ACK_UDP_PORT = 9003
 
-SOCKET_TIMEOUT = 0.001
-LOOP_TIMEOUT   = 0.0001
-
-BUFFER_LENGTH = 1024
-
-
-
+SIZE_PACKAGE = 1024
+    
+def main():
+    # Configuration
+    s = socket.socket()
+    s.bind((IP_ADDRESS, PACKAGE_RECEIVER_UDP_PORT))
+    s.listen
+    
+    while True:
+        (conn, addr) = s.accept()
+        data=conn.recv(SIZE_PACKAGE)
