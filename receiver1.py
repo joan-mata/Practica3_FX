@@ -9,12 +9,18 @@ PACKAGE_SIZE = 1024
     
 def main():
     # Configuration
-    s=socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-    s.bind((IP_ADDRESS, PACKAGE_RECEIVER_UDP_PORT))
+    udp_socket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+    udp_socket.bind((IP_ADDRESS, PACKAGE_RECEIVER_UDP_PORT))
     
     while True:
         # Receive package 
-        data, addr = s.recvfrom(PACKAGE_SIZE)
-
+        data, addr = udp_socket.recvfrom(PACKAGE_SIZE)
+        print("Package received. Data length = {}".format(len(data)))
+        #.format()
+        #print(data)
+        
         # Send ACK
-        s.sendto(data, (addr, SEND_ACK_UDP_PORT))  
+        udp_socket.sendto(data, (IP_ADDRESS, SEND_ACK_UDP_PORT))
+        print("ACK sended.") 
+
+main()
